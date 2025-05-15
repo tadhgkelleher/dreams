@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Schumann Resonance & Dream State Visualization</title>
+    <title>Schumann Resonance & Dream State Visualization</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            background: radial-gradient(circle, #2a0a4a, #000022);
+            background: radial-gradient(circle, #1a0033, #000011);
             color: #fff;
             font-family: 'Arial', sans-serif;
         }
@@ -16,20 +16,20 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             padding: 15px;
             border-radius: 8px;
             font-size: 16px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         #controls {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         #controls label {
             display: block;
@@ -37,20 +37,21 @@
             font-size: 14px;
         }
         #controls input {
-            width: 120px;
+            width: 150px;
             cursor: pointer;
         }
         #controls button {
             margin-top: 10px;
-            padding: 5px 10px;
-            background: #00ff88;
+            padding: 8px 15px;
+            background: #00ffcc;
             border: none;
             border-radius: 5px;
             color: #000;
             cursor: pointer;
+            font-weight: bold;
         }
         #controls button:hover {
-            background: #00cc66;
+            background: #00cc99;
         }
         canvas {
             display: block;
@@ -60,12 +61,12 @@
 <body>
     <div id="info">
         <h2>Collective Dream Resonance</h2>
-        <p>Earth pulses at 7.83 Hz (Schumann resonance).<br>Particles (brains) oscillate at 4–8 Hz.<br>Plane glows when synchronized (r > 0.3).</p>
+        <p>Earth pulses at 7.83 Hz (Schumann resonance).<br>Particles (brains) oscillate at 4–8 Hz.<br>Plane glows when synchronized (r > 0.2).</p>
         <p>Order Parameter (r): <span id="orderParameter">0</span></p>
     </div>
     <div id="controls">
-        <label>Coupling Strength (K): <input type="range" id="coupling" min="0" max="5" step="0.1" value="1"></label>
-        <label>Number of Brains: <input type="range" id="numBrains" min="100" max="2000" step="100" value="1000"></label>
+        <label>Coupling Strength (K): <input type="range" id="coupling" min="0" max="10" step="0.1" value="2"></label>
+        <label>Number of Brains: <input type="range" id="numBrains" min="100" max="1500" step="100" value="1000"></label>
         <button onclick="resetSimulation()">Reset</button>
     </div>
 
@@ -73,18 +74,26 @@
     <script>
         // Three.js setup
         const scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x1a0033, 10, 20); // Dreamy fog effect
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        // Ambient light for dreamy glow
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xffffff, 1, 50);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
         // Earth
         const earthGeometry = new THREE.SphereGeometry(5, 64, 64);
         const earthMaterial = new THREE.MeshBasicMaterial({
-            color: 0x00ff88,
+            color: 0x00ccff,
             wireframe: true,
             transparent: true,
-            opacity: 0.6
+            opacity: 0.7
         });
         const earth = new THREE.Mesh(earthGeometry, earthMaterial);
         scene.add(earth);
@@ -92,10 +101,10 @@
         // Earth's aura (Schumann resonance)
         const auraGeometry = new THREE.SphereGeometry(5.5, 64, 64);
         const auraMaterial = new THREE.MeshBasicMaterial({
-            color: 0x00aaff,
+            color: 0x00ffcc,
             wireframe: true,
             transparent: true,
-            opacity: 0.4
+            opacity: 0.5
         });
         const aura = new THREE.Mesh(auraGeometry, auraMaterial);
         scene.add(aura);
@@ -104,7 +113,7 @@
         let particles, particleSystem;
         let positions, colors, phases = [], frequencies = [];
         let N = 1000; // Initial number of brains
-        let K = 1; // Coupling strength
+        let K = 2; // Initial coupling strength
         const f_E = 7.83; // Schumann resonance
         let r = 0; // Order parameter
 
@@ -117,16 +126,15 @@
             frequencies = [];
 
             for (let i = 0; i < N; i++) {
-                // Spherical distribution with dynamic radius
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos(2 * Math.random() - 1);
-                const r = 6 + Math.random() * 3;
+                const r = 6 + Math.random() * 4;
                 positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
                 positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
                 positions[i * 3 + 2] = r * Math.cos(phi);
                 colors[i * 3] = 1; // Red
                 colors[i * 3 + 1] = 0; // Green
-                colors[i * 3 + 2] = Math.random(); // Blue
+                colors[i * 3 + 2] = 0.2; // Blue
                 phases.push(Math.random() * 2 * Math.PI);
                 frequencies.push(4 + Math.random() * 4); // Theta range (4-8 Hz)
             }
@@ -134,19 +142,20 @@
             particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             const particleMaterial = new THREE.PointsMaterial({
-                size: 0.15,
+                size: 0.2,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.9
+                opacity: 0.9,
+                sizeAttenuation: true
             });
             particleSystem = new THREE.Points(particles, particleMaterial);
             scene.add(particleSystem);
         }
 
         // Resonance plane
-        const planeGeometry = new THREE.PlaneGeometry(25, 25, 32, 32);
+        const planeGeometry = new THREE.PlaneGeometry(30, 30, 32, 32);
         const planeMaterial = new THREE.MeshBasicMaterial({
-            color: 0x88ccff,
+            color: 0x88ffff,
             side: THREE.DoubleSide,
             transparent: true,
             opacity: 0,
@@ -157,7 +166,7 @@
         scene.add(plane);
 
         // Camera position
-        camera.position.set(0, 5, 15);
+        camera.position.set(0, 7, 18);
         camera.lookAt(0, 0, 0);
 
         // Controls
@@ -169,7 +178,7 @@
             initParticles();
         });
         function resetSimulation() {
-            K = 1;
+            K = 2;
             document.getElementById('coupling').value = K;
             initParticles();
         }
@@ -191,26 +200,26 @@
             // Update phases and positions
             for (let i = 0; i < N; i++) {
                 const omega_i = 2 * Math.PI * frequencies[i];
-                const couplingTerm = K * Math.sin(earthPhase - phases[i]);
-                const collectiveTerm = (K / N) * sumSin * Math.sin(psi - phases[i]);
+                const couplingTerm = K * 1.5 * Math.sin(earthPhase - phases[i]); // Amplified coupling
+                const collectiveTerm = (K * 0.5 / N) * sumSin * Math.sin(psi - phases[i]);
                 phases[i] += (omega_i + couplingTerm + collectiveTerm) * delta;
 
-                // Move particles toward plane when synchronized
+                // Dynamic particle movement
                 const phaseDiff = Math.abs(phases[i] - earthPhase);
                 const sync = Math.cos(phaseDiff);
-                const targetY = sync > 0.5 ? 0 : positions[i * 3 + 1]; // Move toward y=0 (plane)
-                positions[i * 3 + 1] += (targetY - positions[i * 3 + 1]) * 0.05;
+                const targetY = sync > 0.7 ? 0 : positions[i * 3 + 1]; // Stronger clustering
+                positions[i * 3 + 1] += (targetY - positions[i * 3 + 1]) * 0.1 * (1 + K * 0.2); // Faster with K
                 colors[i * 3] = 1 - sync; // Red
-                colors[i * 3 + 1] = sync; // Green
-                colors[i * 3 + 2] = 0.3 + sync * 0.7; // Blue
+                colors[i * 3 + 1] = sync * (1 + K * 0.1); // Brighter green with K
+                colors[i * 3 + 2] = sync * 0.8; // Blue
             }
             particles.attributes.position.needsUpdate = true;
             particles.attributes.color.needsUpdate = true;
 
             // Update plane
-            planeMaterial.opacity = r > 0.3 ? r * 1.2 : 0;
-            plane.scale.set(1 + r * 0.5, 1 + r * 0.5, 1);
-            planeMaterial.color.setHSL(r * 0.5, 0.8, 0.5); // Color shifts with r
+            planeMaterial.opacity = r > 0.2 ? r * 1.5 : 0; // Lower threshold, stronger glow
+            plane.scale.set(1 + r * K * 0.2, 1 + r * K * 0.2, 1); // Scale with K and r
+            planeMaterial.color.setHSL(0.5 + r * 0.3, 0.9, 0.6); // Dynamic color
         }
 
         // Animation loop
@@ -223,11 +232,11 @@
             // Animate Earth and aura
             earth.rotation.y += 0.005;
             aura.rotation.y += 0.005;
-            const pulse = 1 + 0.2 * Math.sin(time * 0.00783 * 2 * Math.PI);
+            const pulse = 1 + 0.3 * Math.sin(time * 0.00783 * 2 * Math.PI) * (1 + K * 0.1);
             aura.scale.set(pulse, pulse, pulse);
 
             // Update phases
-            updatePhases(delta * 0.5); // Slower for smoother visuals
+            updatePhases(delta * 0.3); // Adjusted for faster response
 
             // Update order parameter
             document.getElementById('orderParameter').textContent = r.toFixed(3);
