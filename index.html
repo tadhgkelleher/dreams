@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Schumann Resonance & Dream State Visualization</title>
+    <title>Inner Earth Dream Resonance & Connections</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            background: #000005; /* Darker, deeper space */
+            background: #000005;
             color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -19,67 +19,33 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(100, 150, 255, 0.4);
             border: 1px solid rgba(100, 150, 255, 0.2);
-            z-index: 10; /* Ensure panels are above canvas */
+            z-index: 10;
         }
-        #info {
-            top: 15px;
-            left: 15px;
-            font-size: 15px;
-        }
-        #info h2 {
-            margin-top: 0;
-            color: #88ffff;
-        }
-        #info p {
-            margin: 8px 0;
-        }
-        #controls {
-            top: 15px;
-            right: 15px;
-        }
-        #controls label {
-            display: block;
-            margin: 12px 0;
-            font-size: 14px;
-        }
-        #controls input[type="range"] {
-            width: 180px;
-            cursor: pointer;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
+        #info { top: 15px; left: 15px; font-size: 15px; }
+        #info h2 { margin-top: 0; color: #88ffff; }
+        #info p { margin: 8px 0; }
+        #controls { top: 15px; right: 15px; }
+        #controls label { display: block; margin: 12px 0; font-size: 14px; }
+        #controls input[type="range"] { width: 180px; cursor: pointer; margin-left: 5px; vertical-align: middle; }
         #controls button {
-            margin-top: 15px;
-            padding: 10px 18px;
-            background: linear-gradient(45deg, #00ffcc, #00aaff);
-            border: none;
-            border-radius: 5px;
-            color: #000;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
+            margin-top: 15px; padding: 10px 18px; background: linear-gradient(45deg, #00ffcc, #00aaff);
+            border: none; border-radius: 5px; color: #000; cursor: pointer; font-weight: bold; transition: all 0.2s ease;
         }
-        #controls button:hover {
-            background: linear-gradient(45deg, #00ddbb, #0088dd);
-            box-shadow: 0 0 10px #00ffcc;
-        }
-        canvas {
-            display: block;
-        }
+        #controls button:hover { background: linear-gradient(45deg, #00ddbb, #0088dd); box-shadow: 0 0 10px #00ffcc; }
+        canvas { display: block; }
     </style>
 </head>
 <body>
     <div id="info" class="panel">
-        <h2>Collective Dream Resonance v2</h2>
-        <p>Earth's Schumann Resonance: ~7.83 Hz.<br>Oscillators (dreaming minds) range: 4–8 Hz (Theta/Alpha border).<br>Resonance plane visualizes synchrony (Order > 0.3).</p>
-        <p>Order Parameter (r): <span id="orderParameter">0.000</span></p>
+        <h2>Inner Dream Resonance</h2>
+        <p>Minds (particles) resonate within Earth.<br>Connections form with phase synchrony.<br>Global Order (r): <span id="orderParameter">0.000</span></p>
     </div>
     <div id="controls" class="panel">
         <label>Coupling (K): <span id="couplingValue">2.0</span> <input type="range" id="coupling" min="0" max="10" step="0.1" value="2"></label>
-        <label>Brains (N): <span id="numBrainsValue">1000</span> <input type="range" id="numBrains" min="100" max="2000" step="100" value="1000"></label>
+        <label>Brains (N): <span id="numBrainsValue">500</span> <input type="range" id="numBrains" min="50" max="1000" step="50" value="500"></label> <!-- Reduced max N for connections -->
         <label>Sim Speed: <span id="simSpeedValue">0.3</span> <input type="range" id="simSpeed" min="0.05" max="1" step="0.05" value="0.3"></label>
-        <label>Balance (Earth↔Coll): <span id="alphaCouplingValue">0.5</span> <input type="range" id="alphaCoupling" min="0" max="1" step="0.05" value="0.5"></label>
-        <button id="resetButton">Reset Simulation</button> <!-- Removed onclick, added id -->
+        <label>Balance (E↔C): <span id="alphaCouplingValue">0.5</span> <input type="range" id="alphaCoupling" min="0" max="1" step="0.05" value="0.5"></label>
+        <button id="resetButton">Reset Simulation</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -87,14 +53,13 @@
     <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
     <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
     <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <!-- Added LuminosityHighPassShader.js -->
     <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
     <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
     <script>
         // --- Scene Setup ---
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x0a001a, 0.035);
+        scene.fog = new THREE.FogExp2(0x0a001a, 0.045); // Adjusted fog slightly
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -102,18 +67,18 @@
         document.body.appendChild(renderer.domElement);
 
         // --- Lighting ---
-        const ambientLight = new THREE.AmbientLight(0x605080, 0.7);
+        const ambientLight = new THREE.AmbientLight(0x8070a0, 0.8); // Slightly brighter ambient
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
         directionalLight.position.set(5, 10, 7);
         scene.add(directionalLight);
 
         // --- Post-processing ---
         const renderScene = new THREE.RenderPass(scene, camera);
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.8, 0.65);
-        // bloomPass.threshold = 0.65;
-        // bloomPass.strength = 1.2;
-        // bloomPass.radius = 0.8;
+        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.0, 0.7, 0.55);
+         bloomPass.threshold = 0.55;
+         bloomPass.strength = 1.0;
+         bloomPass.radius = 0.7;
 
         const composer = new THREE.EffectComposer(renderer);
         composer.addPass(renderScene);
@@ -122,49 +87,48 @@
         // --- Constants ---
         const EARTH_RADIUS = 5;
         const AURA_RADIUS_FACTOR = 1.1;
-        const F_E = 7.83; // Schumann resonance frequency
-        const OMEGA_E = 2 * Math.PI * F_E; // Angular frequency
+        const F_E = 7.83; 
+        const OMEGA_E = 2 * Math.PI * F_E;
 
-        // --- Global Simulation Variables (initialized in init or reset) ---
-        let earth, aura, particleSystem, resonancePlane;
-        let particlesGeometry, particleMaterial; // Corrected: was particleShaderMaterial
+        // --- Connection Visualization Constants ---
+        const MIN_R_ORDER_FOR_CONNECTIONS = 0.3;
+        const CONNECTION_PHASE_THRESHOLD = Math.PI / 10; // Smaller threshold = stronger sync needed
+        const MAX_CONNECTIONS_TO_DISPLAY = 3000; // Max lines (6000 vertices)
+
+        // --- Global Simulation Variables ---
+        let earth, aura, particleSystem, resonancePlane, lineConnectionSystem;
+        let particlesGeometry, particleMaterial;
+        let lineGeometry, lineMaterial; // For connections
         let positions, colors, phases = [], intrinsicFrequencies = [];
         
-        let N = 1000;
+        let N = 500; // Default N reduced for connection performance
         let K = 2.0;
         let SIMULATION_SPEED = 0.3;
-        let ALPHA_COUPLING = 0.5; // Balance between Earth coupling and collective coupling
-        let r_order = 0; // Order parameter
+        let ALPHA_COUPLING = 0.5;
+        let r_order = 0;
         let totalTime = 0;
 
-        const textureLoader = new THREE.TextureLoader();
-
         function initEarth() {
-            if (earth) scene.remove(earth); // Clean up previous if any
-            const earthGeometry = new THREE.SphereGeometry(EARTH_RADIUS, 64, 64);
-            const earthTexture = textureLoader.load('https://threejsfundamentals.org/threejs/resources/images/earth.jpg', () => {
-                 if (composer) composer.render(); else renderer.render(scene, camera); // Render once texture loaded
-            });
-            const earthMaterial = new THREE.MeshPhongMaterial({
-                map: earthTexture,
-                shininess: 5,
-                specular: 0x333333,
+            if (earth) scene.remove(earth);
+            const earthGeometry = new THREE.SphereGeometry(EARTH_RADIUS, 48, 48); // Slightly less segments
+            // Make Earth wireframe and transparent to see inside
+            const earthMaterial = new THREE.MeshBasicMaterial({
+                color: 0x3388ff, // Brighter blue for wireframe
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15 // Quite transparent
             });
             earth = new THREE.Mesh(earthGeometry, earthMaterial);
             scene.add(earth);
         }
 
         function initAura() {
-            if (aura) scene.remove(aura); // Clean up previous if any
+            if (aura) scene.remove(aura);
             const auraGeometry = new THREE.SphereGeometry(EARTH_RADIUS * AURA_RADIUS_FACTOR, 64, 64);
             const auraMaterial = new THREE.MeshStandardMaterial({
-                color: 0x00ffcc,
-                transparent: true,
-                opacity: 0.15,
-                emissive: 0x00ffaa,
-                emissiveIntensity: 0.5,
-                wireframe: true,
-                depthWrite: false
+                color: 0x00ffcc, transparent: true, opacity: 0.1,
+                emissive: 0x00ffaa, emissiveIntensity: 0.4,
+                wireframe: true, depthWrite: false
             });
             aura = new THREE.Mesh(auraGeometry, auraMaterial);
             scene.add(aura);
@@ -176,105 +140,95 @@
             if (particleMaterial) particleMaterial.dispose();
 
             particlesGeometry = new THREE.BufferGeometry();
-            positions = new Float32Array(N * 3);
-            colors = new Float32Array(N * 3);
-            // const initialPhases = new Float32Array(N); // For shader (not currently used by PointsMaterial)
-            // const particleIntrinsicFreqs = new Float32Array(N); // For shader (not currently used)
-
+            const particlePositionsArray = new Float32Array(N * 3); // Renamed for clarity
+            const particleColorsArray = new Float32Array(N * 3);   // Renamed for clarity
             phases = [];
             intrinsicFrequencies = [];
-
-            const baseParticleColor = new THREE.Color(0xff4444);
+            const baseParticleColor = new THREE.Color(0xff6666);
 
             for (let i = 0; i < N; i++) {
                 const theta = Math.random() * 2 * Math.PI;
                 const phi = Math.acos(2 * Math.random() - 1);
-                const r_particle = EARTH_RADIUS * 1.4 + Math.random() * EARTH_RADIUS * 0.8;
+                // Distribute particles INSIDE the Earth
+                const r_particle = Math.random() * EARTH_RADIUS * 0.85; // Up to 85% of Earth's radius
                 
-                positions[i * 3] = r_particle * Math.sin(phi) * Math.cos(theta);
-                positions[i * 3 + 1] = r_particle * Math.sin(phi) * Math.sin(theta);
-                positions[i * 3 + 2] = r_particle * Math.cos(phi);
+                particlePositionsArray[i * 3] = r_particle * Math.sin(phi) * Math.cos(theta);
+                particlePositionsArray[i * 3 + 1] = r_particle * Math.sin(phi) * Math.sin(theta);
+                particlePositionsArray[i * 3 + 2] = r_particle * Math.cos(phi);
                 
-                colors[i * 3] = baseParticleColor.r;
-                colors[i * 3 + 1] = baseParticleColor.g;
-                colors[i * 3 + 2] = baseParticleColor.b;
+                particleColorsArray[i * 3] = baseParticleColor.r;
+                particleColorsArray[i * 3 + 1] = baseParticleColor.g;
+                particleColorsArray[i * 3 + 2] = baseParticleColor.b;
                 
-                const currentPhase = Math.random() * 2 * Math.PI;
-                phases.push(currentPhase);
-                // initialPhases[i] = currentPhase;
-
-                const freq = 4 + Math.random() * 4;
-                intrinsicFrequencies.push(freq);
-                // particleIntrinsicFreqs[i] = freq;
+                phases.push(Math.random() * 2 * Math.PI);
+                intrinsicFrequencies.push(4 + Math.random() * 4);
             }
 
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            // particlesGeometry.setAttribute('initialPhase', new THREE.BufferAttribute(initialPhases, 1));
-            // particlesGeometry.setAttribute('intrinsicFreq', new THREE.BufferAttribute(particleIntrinsicFreqs, 1));
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositionsArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(particleColorsArray, 3));
 
-            particleMaterial = new THREE.PointsMaterial({ // Using PointsMaterial for simplicity now
-                size: 0.18,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.85,
-                sizeAttenuation: true,
-                depthWrite: false
+            particleMaterial = new THREE.PointsMaterial({
+                size: 0.12, vertexColors: true, transparent: true,
+                opacity: 0.9, sizeAttenuation: true, depthWrite: false
             });
-
             particleSystem = new THREE.Points(particlesGeometry, particleMaterial);
             scene.add(particleSystem);
         }
         
         function initResonancePlane() {
-            if (resonancePlane) scene.remove(resonancePlane); // Clean up previous if any
-            const planeGeometry = new THREE.PlaneGeometry(EARTH_RADIUS * 6, EARTH_RADIUS * 6, 64, 64);
+            if (resonancePlane) scene.remove(resonancePlane);
+            const planeGeometry = new THREE.PlaneGeometry(EARTH_RADIUS * 4, EARTH_RADIUS * 4, 48, 48); // Slightly smaller
             const planeMaterial = new THREE.ShaderMaterial({
                 uniforms: {
-                    time: { value: 0.0 },
-                    orderParameter: { value: 0.0 },
-                    baseColor: { value: new THREE.Color(0x66ddff) },
-                    glowColor: { value: new THREE.Color(0x00ffff) }
+                    time: { value: 0.0 }, orderParameter: { value: 0.0 },
+                    baseColor: { value: new THREE.Color(0x66ddff) }, glowColor: { value: new THREE.Color(0x00ffff) }
                 },
                 vertexShader: `
-                    varying vec2 vUv;
-                    uniform float time;
-                    uniform float orderParameter;
+                    varying vec2 vUv; uniform float time; uniform float orderParameter;
                     void main() {
-                        vUv = uv;
-                        vec3 pos = position;
-                        float dist = length(pos.xy);
-                        float wave = sin(dist * 2.0 - time * 2.0 + orderParameter * 5.0) * 0.3 * orderParameter;
-                        pos.z += wave * (1.0 - smoothstep(0.0, 15.0, dist));
+                        vUv = uv; vec3 pos = position; float dist = length(pos.xy);
+                        float wave = sin(dist * 2.5 - time * 2.0 + orderParameter * 6.0) * 0.25 * orderParameter; // Adjusted wave
+                        pos.z += wave * (1.0 - smoothstep(0.0, 10.0, dist)); // Adjusted falloff
                         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-                    }
-                `,
+                    }`,
                 fragmentShader: `
-                    varying vec2 vUv;
-                    uniform float time;
-                    uniform float orderParameter;
-                    uniform vec3 baseColor;
-                    uniform vec3 glowColor;
+                    varying vec2 vUv; uniform float time; uniform float orderParameter;
+                    uniform vec3 baseColor; uniform vec3 glowColor;
                     void main() {
-                        float opacity = max(0.0, orderParameter - 0.2) * 2.5; 
-                        opacity = clamp(opacity * (0.5 + 0.5 * sin(vUv.x * 20.0 + time + orderParameter * 10.0)), 0.0, 0.8);
-                        float edgeFactor = 1.0 - smoothstep(0.4, 0.5, length(vUv - 0.5));
-                        opacity *= edgeFactor;
-                        vec3 color = mix(baseColor, glowColor, smoothstep(0.3, 0.8, orderParameter));
+                        float opacity = max(0.0, orderParameter - 0.15) * 2.8; // Adjusted threshold & multiplier
+                        opacity = clamp(opacity * (0.4 + 0.6 * sin(vUv.x * 25.0 + time + orderParameter * 12.0)), 0.0, 0.75); // Adjusted
+                        float edgeFactor = 1.0 - smoothstep(0.35, 0.5, length(vUv - 0.5)); opacity *= edgeFactor;
+                        vec3 color = mix(baseColor, glowColor, smoothstep(0.2, 0.7, orderParameter)); // Adjusted mix
                         gl_FragColor = vec4(color, opacity);
-                    }
-                `,
-                side: THREE.DoubleSide,
-                transparent: true,
-                depthWrite: false,
+                    }`,
+                side: THREE.DoubleSide, transparent: true, depthWrite: false,
             });
             resonancePlane = new THREE.Mesh(planeGeometry, planeMaterial);
             resonancePlane.rotation.x = Math.PI / 2;
+            resonancePlane.position.y = -EARTH_RADIUS * 0.1; // Slightly below center if desired
             scene.add(resonancePlane);
         }
 
+        function initLineConnections() {
+            if (lineConnectionSystem) scene.remove(lineConnectionSystem);
+            if (lineGeometry) lineGeometry.dispose();
+            if (lineMaterial) lineMaterial.dispose();
+
+            lineGeometry = new THREE.BufferGeometry();
+            lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x88aaff, // Soft blue/purple for connections
+                transparent: true,
+                opacity: 0, // Start invisible
+                linewidth: 1, // Note: linewidth > 1 only works with LineMaterial from examples/jsm/lines (WebGL2 related)
+                blending: THREE.AdditiveBlending, // For a nice glowy effect if colors overlap
+                depthWrite: false
+            });
+            lineConnectionSystem = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lineConnectionSystem);
+        }
+
         // --- Camera Position ---
-        camera.position.set(0, EARTH_RADIUS * 1.5, EARTH_RADIUS * 3.5);
+        camera.position.set(0, EARTH_RADIUS * 0.5, EARTH_RADIUS * 2.5); // Adjusted to better see inside
         camera.lookAt(0, 0, 0);
 
         // --- UI Controls & Event Listeners ---
@@ -282,111 +236,68 @@
         const numBrainsSlider = document.getElementById('numBrains');
         const simSpeedSlider = document.getElementById('simSpeed');
         const alphaCouplingSlider = document.getElementById('alphaCoupling');
-        const resetButton = document.getElementById('resetButton'); // Get button by ID
+        const resetButton = document.getElementById('resetButton'); 
 
         const couplingValueSpan = document.getElementById('couplingValue');
         const numBrainsValueSpan = document.getElementById('numBrainsValue');
         const simSpeedValueSpan = document.getElementById('simSpeedValue');
         const alphaCouplingValueSpan = document.getElementById('alphaCouplingValue');
 
-        couplingSlider.addEventListener('input', (e) => {
-            K = parseFloat(e.target.value);
-            couplingValueSpan.textContent = K.toFixed(1);
-        });
-        numBrainsSlider.addEventListener('input', (e) => {
-            N = parseInt(e.target.value);
-            numBrainsValueSpan.textContent = N;
-            // Debounce or delay re-initialization if performance is an issue
-            // For now, direct re-init:
-            if (N > 0) initParticles(); 
-        });
-         simSpeedSlider.addEventListener('input', (e) => {
-            SIMULATION_SPEED = parseFloat(e.target.value);
-            simSpeedValueSpan.textContent = SIMULATION_SPEED.toFixed(2);
-        });
-        alphaCouplingSlider.addEventListener('input', (e) => {
-            ALPHA_COUPLING = parseFloat(e.target.value);
-            alphaCouplingValueSpan.textContent = ALPHA_COUPLING.toFixed(2);
-        });
+        // (Event listener setup code remains the same)
+        couplingSlider.addEventListener('input', (e) => { K = parseFloat(e.target.value); couplingValueSpan.textContent = K.toFixed(1); });
+        numBrainsSlider.addEventListener('input', (e) => { N = parseInt(e.target.value); numBrainsValueSpan.textContent = N; if (N > 0) { initParticles(); updateConnections(); } }); // Update connections on N change too
+        simSpeedSlider.addEventListener('input', (e) => { SIMULATION_SPEED = parseFloat(e.target.value); simSpeedValueSpan.textContent = SIMULATION_SPEED.toFixed(2); });
+        alphaCouplingSlider.addEventListener('input', (e) => { ALPHA_COUPLING = parseFloat(e.target.value); alphaCouplingValueSpan.textContent = ALPHA_COUPLING.toFixed(2); });
+
 
         function resetSimulation() {
-            K = 2.0;
-            N = 1000;
-            SIMULATION_SPEED = 0.3;
-            ALPHA_COUPLING = 0.5;
-
-            couplingSlider.value = K;
-            numBrainsSlider.value = N;
-            simSpeedSlider.value = SIMULATION_SPEED;
-            alphaCouplingSlider.value = ALPHA_COUPLING;
-
-            couplingValueSpan.textContent = K.toFixed(1);
-            numBrainsValueSpan.textContent = N;
-            simSpeedValueSpan.textContent = SIMULATION_SPEED.toFixed(2);
-            alphaCouplingValueSpan.textContent = ALPHA_COUPLING.toFixed(2);
-            
-            totalTime = 0;
-            r_order = 0; // Reset order parameter as well
+            K = 2.0; N = 500; SIMULATION_SPEED = 0.3; ALPHA_COUPLING = 0.5;
+            couplingSlider.value = K; numBrainsSlider.value = N; simSpeedSlider.value = SIMULATION_SPEED; alphaCouplingSlider.value = ALPHA_COUPLING;
+            couplingValueSpan.textContent = K.toFixed(1); numBrainsValueSpan.textContent = N;
+            simSpeedValueSpan.textContent = SIMULATION_SPEED.toFixed(2); alphaCouplingValueSpan.textContent = ALPHA_COUPLING.toFixed(2);
+            totalTime = 0; r_order = 0; 
             document.getElementById('orderParameter').textContent = r_order.toFixed(3);
             if (N > 0) initParticles();
+            updateConnections(); // Clear/reset connections
         }
         
-        // --- Kuramoto Model Simulation ---
         function updatePhases(deltaTimeEffective) {
-            if (!phases || phases.length !== N || N === 0 || !particlesGeometry) return;
+            // (Kuramoto model updatePhases code remains largely the same)
+            // ... just ensure currentPositions and currentColors are from particlesGeometry.attributes
+            if (!phases || phases.length !== N || N === 0 || !particlesGeometry || !particlesGeometry.attributes.position) return;
 
             const earthPhase = (OMEGA_E * totalTime) % (2 * Math.PI);
-
             let sumCos = 0, sumSin = 0;
-            for (let i = 0; i < N; i++) {
-                sumCos += Math.cos(phases[i]);
-                sumSin += Math.sin(phases[i]);
-            }
+            for (let i = 0; i < N; i++) { sumCos += Math.cos(phases[i]); sumSin += Math.sin(phases[i]); }
             r_order = N > 0 ? Math.sqrt(sumCos * sumCos + sumSin * sumSin) / N : 0;
             const psi_collective = N > 0 ? Math.atan2(sumSin, sumCos) : 0;
 
-            const currentPositions = particlesGeometry.attributes.position.array;
-            const currentColors = particlesGeometry.attributes.color.array;
+            const currentParticlePositions = particlesGeometry.attributes.position.array;
+            const currentParticleColors = particlesGeometry.attributes.color.array;
 
             for (let i = 0; i < N; i++) {
                 const omega_i = 2 * Math.PI * intrinsicFrequencies[i];
-                
                 const earthInteractionTerm = (1 - ALPHA_COUPLING) * K * Math.sin(earthPhase - phases[i]);
                 const collectiveInteractionTerm = ALPHA_COUPLING * K * r_order * Math.sin(psi_collective - phases[i]);
-                
                 phases[i] += (omega_i + earthInteractionTerm + collectiveInteractionTerm) * deltaTimeEffective;
-                phases[i] = (phases[i] % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI); // Ensure positive phase
+                phases[i] = (phases[i] % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
 
-                const phaseDifferenceToEarth = Math.abs(phases[i] - earthPhase); // Can be simplified
-                const syncFactor = Math.cos(phaseDifferenceToEarth / 2); 
+                const phaseDifferenceToEarth = Math.abs(phases[i] - earthPhase);
+                const syncFactor = Math.cos(phaseDifferenceToEarth / 2);
 
-                currentColors[i * 3] = Math.max(0.1, 1 - syncFactor); 
-                currentColors[i * 3 + 1] = Math.min(1.0, syncFactor * (0.8 + K * 0.02 + r_order * 0.2));
-                currentColors[i * 3 + 2] = Math.min(1.0, syncFactor * 0.6 + r_order * 0.3);
+                currentParticleColors[i * 3] = Math.max(0.1, 1 - syncFactor * 0.9); 
+                currentParticleColors[i * 3 + 1] = Math.min(1.0, syncFactor * (0.7 + K * 0.03 + r_order * 0.3));
+                currentParticleColors[i * 3 + 2] = Math.min(1.0, syncFactor * 0.5 + r_order * 0.4);
 
-                const targetYAttraction = (syncFactor > 0.8 && r_order > 0.3) ? (syncFactor - 0.8) * 0.5 : 0;
-                const currentY = currentPositions[i * 3 + 1];
-                let targetY = currentY * (1 - targetYAttraction); // Move towards y=0 plane
-                targetY += (Math.random() - 0.5) * 0.02 * (1-syncFactor); // Random drift if not synced
-                
-                currentPositions[i * 3 + 1] += (targetY - currentY) * 0.05 * (1 + K * 0.05);
-                
-                // Maintain approximate distance from origin
-                const pX = currentPositions[i*3];
-                const pY = currentPositions[i*3+1];
-                const pZ = currentPositions[i*3+2];
-                const currentDistSq = pX*pX + pY*pY + pZ*pZ;
-                const initialDist = EARTH_RADIUS * 1.4 + (intrinsicFrequencies[i]-4)/4 * EARTH_RADIUS * 0.8; // pseudo-random but consistent
-                
-                if (currentDistSq > (initialDist * 1.1)**2 || currentDistSq < (initialDist * 0.9)**2 ) {
-                    const currentR = Math.sqrt(currentDistSq);
-                    if (currentR > 0.01) {
-                        const scaleToInitialR = initialDist / currentR;
-                        currentPositions[i*3] += (pX*scaleToInitialR - pX) * 0.005;
-                        currentPositions[i*3+1] += (pY*scaleToInitialR - pY) * 0.005;
-                        currentPositions[i*3+2] += (pZ*scaleToInitialR - pZ) * 0.005;
-                    }
+                // Particle movement (less pronounced y-clustering as they are inside)
+                const currentY = currentParticlePositions[i * 3 + 1];
+                let targetY = currentY;
+                if (syncFactor > 0.85 && r_order > 0.4) { // If highly synced locally and globally
+                    targetY = currentY * 0.95; // Gentle pull towards Y=0 plane
+                } else {
+                    targetY += (Math.random() - 0.5) * 0.01 * (1-syncFactor); // Slight drift
                 }
+                currentParticlePositions[i * 3 + 1] += (targetY - currentY) * 0.03 * (1 + K * 0.03);
             }
             particlesGeometry.attributes.position.needsUpdate = true;
             particlesGeometry.attributes.color.needsUpdate = true;
@@ -394,13 +305,57 @@
             if (resonancePlane && resonancePlane.material.uniforms) {
                 resonancePlane.material.uniforms.orderParameter.value = r_order;
                 resonancePlane.material.uniforms.time.value = totalTime;
-                const planeScale = 1 + r_order * K * 0.05;
+                const planeScale = 1 + r_order * K * 0.03;
                 resonancePlane.scale.set(planeScale, planeScale, 1);
             }
         }
 
+        function updateConnections() {
+            if (!lineConnectionSystem || !particlesGeometry || !particlesGeometry.attributes.position || N === 0) {
+                if(lineConnectionSystem) lineConnectionSystem.material.opacity = 0;
+                return;
+            }
+
+            const lineVertices = [];
+            let connectionsDrawn = 0;
+            const particlePos = particlesGeometry.attributes.position.array;
+
+            if (r_order > MIN_R_ORDER_FOR_CONNECTIONS) {
+                for (let i = 0; i < N; i++) {
+                    if (connectionsDrawn >= MAX_CONNECTIONS_TO_DISPLAY) break;
+                    // Check only a subset of pairs for performance, e.g., by skipping some j
+                    // Or, for each i, check a few random j's. For simplicity, checking forward pairs.
+                    for (let j = i + 1; j < N; j++) {
+                         if (connectionsDrawn >= MAX_CONNECTIONS_TO_DISPLAY) break;
+
+                        let phaseDiff = Math.abs(phases[i] - phases[j]);
+                        phaseDiff = Math.min(phaseDiff, 2 * Math.PI - phaseDiff); // Account for wrap-around
+
+                        if (phaseDiff < CONNECTION_PHASE_THRESHOLD) {
+                            lineVertices.push(particlePos[i * 3], particlePos[i * 3 + 1], particlePos[i * 3 + 2]);
+                            lineVertices.push(particlePos[j * 3], particlePos[j * 3 + 1], particlePos[j * 3 + 2]);
+                            connectionsDrawn++;
+                        }
+                    }
+                }
+            }
+
+            if (lineVertices.length > 0) {
+                lineConnectionSystem.geometry.setAttribute('position', new THREE.Float32BufferAttribute(lineVertices, 3));
+                lineConnectionSystem.geometry.attributes.position.needsUpdate = true;
+                // Opacity based on how much r_order exceeds the minimum, capped
+                lineConnectionSystem.material.opacity = Math.min(0.6, (r_order - MIN_R_ORDER_FOR_CONNECTIONS) * 2.5);
+                lineConnectionSystem.material.color.setHSL(0.6 + r_order * 0.2, 0.8, 0.5 + r_order * 0.2); // Dynamic color
+            } else {
+                lineConnectionSystem.material.opacity = 0;
+                // Optionally, clear the geometry if no lines to draw to free memory / avoid rendering empty buffer
+                // lineConnectionSystem.geometry.setAttribute('position', new THREE.Float32BufferAttribute([], 3));
+            }
+        }
+
+
         // --- Animation Loop ---
-        let frame_lastTime = 0; // Renamed to avoid conflict with shader 'time'
+        let frame_lastTime = 0;
         function animate(time) {
             requestAnimationFrame(animate);
             const now = time * 0.001; 
@@ -408,26 +363,25 @@
             frame_lastTime = now;
             
             const effectiveDeltaTime = Math.min(deltaTime, 0.1) * SIMULATION_SPEED; 
-            if(N > 0 && phases && phases.length > 0) { // Only advance time if there's something to simulate
-                 totalTime += effectiveDeltaTime;
-            }
+            if(N > 0 && phases && phases.length > 0) { totalTime += effectiveDeltaTime; }
 
-
-            if (earth) earth.rotation.y += 0.0003 * SIMULATION_SPEED * 60 * deltaTime;
+            if (earth) earth.rotation.y += 0.0002 * SIMULATION_SPEED * 60 * deltaTime; // Slower earth rotation
             if (aura) {
-                aura.rotation.y += 0.0005 * SIMULATION_SPEED * 60 * deltaTime;
-                const pulse = 1 + 0.03 * Math.sin(totalTime * OMEGA_E * 0.3) * (1 + K * 0.03);
+                aura.rotation.y += 0.0004 * SIMULATION_SPEED * 60 * deltaTime;
+                const pulse = 1 + 0.025 * Math.sin(totalTime * OMEGA_E * 0.25) * (1 + K * 0.02);
                 aura.scale.set(pulse, pulse, pulse);
-                aura.material.emissiveIntensity = 0.2 + r_order * 0.5;
-                aura.material.opacity = 0.1 + r_order * 0.15;
+                aura.material.emissiveIntensity = 0.15 + r_order * 0.4;
+                aura.material.opacity = 0.05 + r_order * 0.1;
             }
 
             if(N > 0 && phases && phases.length > 0) {
                 updatePhases(effectiveDeltaTime);
+                updateConnections(); // Update connections after phases and particle positions
+            } else {
+                 updateConnections(); // Ensure connections are cleared if N=0
             }
 
             document.getElementById('orderParameter').textContent = r_order.toFixed(3);
-            
             if (composer) composer.render(); else renderer.render(scene, camera);
         }
 
@@ -435,31 +389,24 @@
         function init() {
             initEarth();
             initAura();
-            if (N > 0) initParticles(); // Only init if N > 0, though default is 1000
+            if (N > 0) initParticles();
             initResonancePlane();
+            initLineConnections(); // Initialize connection system
             
-            couplingValueSpan.textContent = K.toFixed(1);
-            numBrainsValueSpan.textContent = N;
-            simSpeedValueSpan.textContent = SIMULATION_SPEED.toFixed(2);
-            alphaCouplingValueSpan.textContent = ALPHA_COUPLING.toFixed(2);
-
-            // Attach reset button listener here, after all variables are known
+            couplingValueSpan.textContent = K.toFixed(1); numBrainsValueSpan.textContent = N;
+            simSpeedValueSpan.textContent = SIMULATION_SPEED.toFixed(2); alphaCouplingValueSpan.textContent = ALPHA_COUPLING.toFixed(2);
             resetButton.addEventListener('click', resetSimulation);
-
             animate(0);
         }
         init();
 
         // --- Handle Window Resize ---
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+        window.addEventListener('resize', () => { /* (resize handler remains the same) */
+            camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
             if (composer) {
                 composer.setSize(window.innerWidth, window.innerHeight);
-                if (bloomPass && bloomPass.resolution) { // Check if bloomPass and its resolution property exist
-                     bloomPass.resolution.set(window.innerWidth, window.innerHeight);
-                }
+                if (bloomPass && bloomPass.resolution) { bloomPass.resolution.set(window.innerWidth, window.innerHeight); }
             }
         });
     </script>
